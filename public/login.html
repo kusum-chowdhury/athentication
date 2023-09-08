@@ -36,30 +36,42 @@
       <p>Do not have an account? <a href="./signup.html">Sign Up</a></p>
     </div>
     <script>
-      let signInSubmitButton = document.querySelector("#sign-in-btn");
-      let email = document.getElementById("email");
-      let password = document.getElementById("password"); 
-      
-      const BASE_URL = "http://localhost:8000";
+     let signInSubmitButton = document.querySelector("#sign-in-btn");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password"); 
+  
+  const BASE_URL = "http://localhost:8000";
 
-      signInSubmitButton.addEventListener("click", async () => {
-        let user = {
-          email: email.value,
-          password: password.value,
-        };
+  signInSubmitButton.addEventListener("click", async () => {
+    let user = {
+      email: email.value,
+      password: password.value,
+    };
 
-        let request = await fetch(`${BASE_URL}/api/v1/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
+    try {
+  let response = await fetch(`${BASE_URL}/api/v1/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
 
-        let message = await request.text();
+  if (response.status === 200) {
+    // Successful login, handle accordingly
+    window.location.href = `${BASE_URL}/logout.html`; // Redirect to logout page
+  } else {
+    // Handle failed login (e.g., display an error message)
+    console.error('Login failed');
+  }
 
-        alert(message);
-      });
+  let message = await response.text();
+
+  alert(message);
+} catch (error) {
+  console.error('Error:', error);
+}
+  });
     </script>
   </body>
 </html>

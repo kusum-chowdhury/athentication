@@ -34,9 +34,7 @@ router.post("/signup", async(req, res)=> {
 router.post("/login", async(req, res)=> {
   try{
      const {email, password} = req.body;
-     console.log(email)
      const userExists = await User.findOne({where: {email}});
-     console.log(userExists);
      if(!userExists){
       return res.status(401).json({message: "user not found"});
      }
@@ -50,14 +48,26 @@ router.post("/login", async(req, res)=> {
     } )
     res.cookie("t", token, {expire: new Date() + 10000 });
     console.log("success")
-    return res.status(201).json({
-      token
-    })
+    return res.status(200).json({ token });
 
   }catch(e){
     console.log(e);
     return res.status(500).send(e)
   }
 })
+
+router.get('/logout', (req, res) => {
+  try {
+    res.clearCookie('t');
+    res.redirect('/');
+  } catch (e) {
+    // Handle any potential errors here
+    console.error(e);
+    return res.status(500).json({
+      message: "Internal Server Error"
+    });
+  }
+});
+
 
 module.exports = router;
