@@ -13,7 +13,7 @@ router.post("/signup", async(req, res)=> {
         return res.status(401).json({message: "user already exists"});
       }
       if(!validateName(name)){
-        return res.status(401).json({message: "name should be more than 5 words"});
+        return res.status(401).json({message: "name should be more than 5 characters"});
       }
       if(!validateEmail(email)){
         return res.status(401).json({message: "enter a valid email address"});

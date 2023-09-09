@@ -34,7 +34,8 @@ Follow these steps to install and set up the authentication system:
 - **`/routes`**: Contains the route handlers for different endpoints of the API.
 - **`/public`**: Contains static files like HTML templates (index.html, signup.html, login.html), stylesheets, and client-side JavaScript files.
 - **`/tests`**: Includes test files for automated testing of the application.
-- **`app.js`**: The main entry point of the application.
+- **`/utils`**: Includes helper functions to validate the credentials.
+- **`index.js`**: The main entry point of the application.
 - **`package.json`**: Contains metadata about the project and its dependencies.
 
 
@@ -190,3 +191,78 @@ The `users` table stores information about registered users.
 - Ensure that the `email` field is unique to prevent duplicate accounts.
 - Use appropriate encryption and security measures for storing passwords.
 - The `created_at` and `updated_at` fields are automatically managed by the database.
+
+## Testing
+
+### Running Tests
+
+### Test Cases
+
+#### User Registration
+
+**Scenario: User provides valid registration data**
+
+- Endpoint: POST /api/v1/signup
+- Request Body:
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "StrongPassword@123"
+  }
+- Expected Result:
+- Status Code: 200
+- Response Body: Welcome John Doe, thanks for signing up
+
+**Scenario: User already exists**
+
+- Endpoint: POST /api/v1/signup
+- Request Body:
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "StrongPassword@123"
+  }
+- Expected Result:
+- Status Code: 401
+- bResponse Body: user already exists
+
+#### User login
+
+**Scenario: User provides correct credentials**
+
+- Endpoint: POST /api/v1/login
+- Request Body:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "StrongPassword@123"
+  }
+- Expected Result:
+- Status Code: 200
+- Response Body: { "token": "<generated_token>" }
+
+**Scenario: User provides incorrect password**
+
+- Endpoint: POST /api/v1/login
+- Request Body:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "WrongPassword123"
+  }
+- Expected Result:
+- Status Code: 401
+- Response Body: { "message": "incorrect password or email" }
+
+#### User logout
+
+**Scenario: User successfully logs out**
+
+- Endpoint: GET /api/v1/logout
+- Expected Result:
+- Status Code: 200
+- Clears the 't' cookie
+
+#### Feel free to explore and enhance the application according to your needs. If you encounter any issues or have suggestions, please feel free to contribute or reach out.
